@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Search, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
 import logo from '@/assets/logo.jpeg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { totalItems, setIsCartOpen } = useCart();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,19 +23,43 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#categories', label: 'Categories' },
-    { href: '#products', label: 'Products' },
-    { href: '#about', label: 'About Us' },
-    { href: '#contact', label: 'Contact' },
+    { href: '/', label: 'Home', isRoute: true },
+    { href: '#categories', label: 'Categories', isRoute: false },
+    { href: '/products', label: 'Products', isRoute: true },
+    { href: '#about', label: 'About Us', isRoute: false },
+    { href: '#contact', label: 'Contact', isRoute: false },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavClick = (href: string, isRoute: boolean) => {
     setIsMenuOpen(false);
+    
+    if (isRoute) {
+      navigate(href);
+    } else {
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setShowSearch(false);
+    }
   };
 
   return (
@@ -38,14 +67,14 @@ const Header = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-card/95 backdrop-blur-md shadow-soft'
-          : 'bg-transparent'
+          : 'bg-card/80 backdrop-blur-sm'
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center">
-            <img src={logo} alt="VeGa Foods" className="h-14 w-auto" />
+          <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="flex items-center">
+            <img src={logo} alt="VeGa Foods" className="h-12 md:h-14 w-auto" />
           </a>
 
           {/* Desktop Navigation */}
@@ -53,7 +82,7 @@ const Header = () => {
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => scrollToSection(link.href)}
+                onClick={() => handleNavClick(link.href, link.isRoute)}
                 className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200 relative group"
               >
                 {link.label}
@@ -62,8 +91,16 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Cart & Mobile Menu */}
-          <div className="flex items-center gap-4">
+          {/* Right Section: Search, Cart & Mobile Menu */}
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Search Button */}
+            <button
+              onClick={() => setShowSearch(!showSearch)}
+              className="p-2 text-foreground hover:text-primary transition-colors"
+            >
+              {showSearch ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+            </button>
+
             {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
@@ -93,7 +130,7 @@ const Header = () => {
               />
               <motion.span
                 animate={isMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                className="w-4 h-0.5 bg-foreground rounded-full transition-colors"
+                className="w-4 h-0.5 bg-foreground rounded-full transition-colors origin-center"
               />
               <motion.span
                 animate={isMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
@@ -102,6 +139,31 @@ const Header = () => {
             </button>
           </div>
         </div>
+
+        {/* Search Bar */}
+        <AnimatePresence>
+          {showSearch && (
+            <motion.form
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              onSubmit={handleSearch}
+              className="overflow-hidden pb-4"
+            >
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search for products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                  className="w-full pl-12 pr-4 py-3 bg-muted border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                />
+              </div>
+            </motion.form>
+          )}
+        </AnimatePresence>
 
         {/* Mobile Navigation */}
         <AnimatePresence>
@@ -119,7 +181,7 @@ const Header = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    onClick={() => scrollToSection(link.href)}
+                    onClick={() => handleNavClick(link.href, link.isRoute)}
                     className="block w-full text-left px-4 py-3 text-foreground/80 hover:text-primary hover:bg-accent/50 font-medium transition-all"
                   >
                     {link.label}

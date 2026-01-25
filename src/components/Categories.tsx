@@ -1,30 +1,23 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import categoryDehydrated from '@/assets/category-dehydrated.jpg';
 import categoryMillet from '@/assets/category-millet.jpg';
 
 const Categories = () => {
+  const navigate = useNavigate();
+
   const categories = [
     {
       id: 'dehydrated',
-      name: 'Dehydrated Veg & Fruit Powders',
-      description: 'Premium quality powders packed with natural nutrition',
+      name: 'Dehydrated Powders',
       image: categoryDehydrated,
     },
     {
       id: 'millet',
       name: 'Millet Mix',
-      description: 'Healthy and nutritious millet-based products',
       image: categoryMillet,
     },
   ];
-
-  const scrollToProducts = (category: string) => {
-    const element = document.querySelector('#products');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="categories" className="py-20 bg-accent/30">
@@ -46,7 +39,7 @@ const Categories = () => {
         </motion.div>
 
         {/* Categories Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-16">
           {categories.map((category, index) => (
             <motion.div
               key={category.id}
@@ -54,39 +47,31 @@ const Categories = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="group"
+              className="group cursor-pointer"
+              onClick={() => navigate(`/products?category=${category.id}`)}
             >
-              <div className="bg-card rounded-3xl p-8 shadow-soft card-hover">
-                {/* Circular Image */}
-                <div className="flex justify-center mb-6">
-                  <div className="relative">
-                    <div className="w-48 h-48 rounded-full overflow-hidden ring-4 ring-primary/30 group-hover:ring-primary/60 transition-all duration-300 shadow-lg">
-                      <img
-                        src={category.image}
-                        alt={category.name}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-                    {/* Decorative ring */}
-                    <div className="absolute inset-0 rounded-full ring-2 ring-primary/20 ring-offset-4 ring-offset-card pointer-events-none" />
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="text-center">
-                  <h3 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-3">
-                    {category.name}
-                  </h3>
-                  <p className="text-muted-foreground mb-6">{category.description}</p>
-
-                  <button
-                    onClick={() => scrollToProducts(category.id)}
-                    className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-4 transition-all duration-300"
+              {/* Circular Image */}
+              <div className="flex flex-col items-center">
+                <div className="relative mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 rounded-full overflow-hidden ring-4 ring-primary/40 group-hover:ring-primary group-hover:ring-[6px] transition-all duration-300 shadow-lg"
                   >
-                    Explore Products
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </motion.div>
+                  {/* Decorative outer ring */}
+                  <div className="absolute inset-[-8px] rounded-full ring-2 ring-primary/20 pointer-events-none" />
                 </div>
+
+                {/* Category Name */}
+                <h3 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-foreground text-center group-hover:text-primary transition-colors duration-300">
+                  {category.name}
+                </h3>
               </div>
             </motion.div>
           ))}
