@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import CheckoutForm from './CheckoutForm';
 
 const CartSidebar = () => {
-  const { items, isCartOpen, setIsCartOpen, totalItems, totalPrice, updateQuantity, removeFromCart } = useCart();
-  const [showCheckout, setShowCheckout] = useState(false);
+  const { items, isCartOpen, setIsCartOpen, totalItems, totalPrice, updateQuantity, removeFromCart, setIsCheckoutOpen } = useCart();
+
+  const handleProceedToCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
 
   return (
     <AnimatePresence>
@@ -17,10 +20,7 @@ const CartSidebar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => {
-              setIsCartOpen(false);
-              setShowCheckout(false);
-            }}
+            onClick={() => setIsCartOpen(false)}
             className="fixed inset-0 bg-foreground/50 backdrop-blur-sm z-50"
           />
 
@@ -38,14 +38,11 @@ const CartSidebar = () => {
                 <div className="flex items-center gap-3">
                   <ShoppingBag className="w-6 h-6 text-primary" />
                   <h2 className="text-xl font-heading font-bold text-foreground">
-                    {showCheckout ? 'Checkout' : `Your Cart (${totalItems})`}
+                    Your Cart ({totalItems})
                   </h2>
                 </div>
                 <button
-                  onClick={() => {
-                    setIsCartOpen(false);
-                    setShowCheckout(false);
-                  }}
+                  onClick={() => setIsCartOpen(false)}
                   className="p-2 hover:bg-muted rounded-full transition-colors"
                 >
                   <X className="w-5 h-5" />
@@ -54,9 +51,7 @@ const CartSidebar = () => {
 
               {/* Content */}
               <div className="flex-1 overflow-y-auto">
-                {showCheckout ? (
-                  <CheckoutForm onBack={() => setShowCheckout(false)} />
-                ) : items.length === 0 ? (
+                {items.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full p-6 text-center">
                     <ShoppingBag className="w-20 h-20 text-muted-foreground/30 mb-4" />
                     <h3 className="text-lg font-semibold text-foreground mb-2">Your cart is empty</h3>
@@ -78,7 +73,7 @@ const CartSidebar = () => {
                         <div className="flex-1">
                           <h4 className="font-semibold text-foreground">{item.name}</h4>
                           <p className="text-sm text-muted-foreground">{item.size}</p>
-                          <p className="text-primary font-bold mt-1">₹{item.price}</p>
+                          <p className="text-primary font-bold mt-1">₹{item.price * item.quantity}</p>
                         </div>
 
                         {/* Quantity Controls */}
@@ -113,7 +108,7 @@ const CartSidebar = () => {
               </div>
 
               {/* Footer */}
-              {!showCheckout && items.length > 0 && (
+              {items.length > 0 && (
                 <div className="p-6 border-t border-border bg-card">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-muted-foreground">Total Amount</span>
@@ -121,7 +116,7 @@ const CartSidebar = () => {
                   </div>
 
                   <button
-                    onClick={() => setShowCheckout(true)}
+                    onClick={handleProceedToCheckout}
                     className="w-full flex items-center justify-center gap-2 py-4 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition-all duration-300 shadow-soft hover:shadow-glow"
                   >
                     Proceed to Checkout

@@ -7,6 +7,7 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
 import FloatingCart from '@/components/FloatingCart';
+import CheckoutModal from '@/components/CheckoutModal';
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
       <Footer />
       <CartSidebar />
       <FloatingCart />
+      <CheckoutModal />
     </div>
   );
 };
