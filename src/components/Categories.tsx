@@ -9,12 +9,12 @@ const Categories = () => {
   const categories = [
     {
       id: 'dehydrated',
-      name: 'Dehydrated Powders',
+      name: 'Dehydrated Fruit & Veg Powders',
       image: categoryDehydrated,
     },
     {
       id: 'millet',
-      name: 'Millet Mix',
+      name: 'Multi Millet Mixes',
       image: categoryMillet,
     },
   ];
@@ -31,7 +31,8 @@ const Categories = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            Discover Our Categories
+            Everything You Need for a{' '}
+            <span className="text-gradient">Healthier Kitchen</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore naturally crafted, premium-quality products curated for your well-being.
@@ -69,7 +70,7 @@ const Categories = () => {
                 </div>
 
                 {/* Category Name */}
-                <h3 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-foreground text-center group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-lg md:text-xl lg:text-2xl font-heading font-bold text-foreground text-center group-hover:text-primary transition-colors duration-300 max-w-[200px]">
                   {category.name}
                 </h3>
               </div>

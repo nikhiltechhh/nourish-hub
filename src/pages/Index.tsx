@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import Categories from '@/components/Categories';
 import Products from '@/components/Products';
 import About from '@/components/About';
+import WhyChooseUs from '@/components/WhyChooseUs';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
@@ -18,6 +19,7 @@ const Index = () => {
         <Categories />
         <Products />
         <About />
+        <WhyChooseUs />
         <Contact />
       </main>
       <Footer />
