@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Minus, Plus, Check, ShoppingCart } from 'lucide-react';
+import { Minus, Plus, Check, ShoppingCart, Eye } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/data/products';
 
@@ -10,6 +11,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, index }: ProductCardProps) => {
+  const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState<'250g' | '500g'>('250g');
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
@@ -28,6 +30,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
     setIsAdded(true);
     setQuantity(1);
     setTimeout(() => setIsAdded(false), 1500);
+  };
+
+  const handleQuickView = () => {
+    navigate(`/product/${product.id}`);
   };
 
   const incrementQuantity = () => setQuantity((q) => Math.min(q + 1, 10));
@@ -54,6 +60,15 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
             {product.category === 'dehydrated' ? 'Powder' : 'Millet'}
           </span>
         </div>
+        {/* Quick View Button */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          whileHover={{ scale: 1.1 }}
+          onClick={handleQuickView}
+          className="absolute top-3 right-3 w-9 h-9 bg-card/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md hover:bg-card"
+        >
+          <Eye className="w-4 h-4 text-primary" />
+        </motion.button>
       </div>
 
       {/* Product Details */}
