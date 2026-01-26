@@ -1,14 +1,10 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Leaf } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import heroBg from '@/assets/hero-bg.jpg';
 
 const Hero = () => {
-  const scrollToProducts = () => {
-    const element = document.querySelector('#products');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <section
@@ -37,7 +33,7 @@ const Hero = () => {
             <div className="p-2 bg-primary/10 rounded-full">
               <Leaf className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-primary font-medium">100% Natural & Organic</span>
+            <span className="text-primary font-medium">Fresh • Pure • Natural</span>
           </motion.div>
 
           <motion.h1
@@ -46,8 +42,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground leading-tight mb-6"
           >
-            Nourish Your Life with{' '}
-            <span className="text-gradient">Pure Nature</span>
+            Wholesome Food for{' '}
+            <span className="text-gradient">Everyday Living</span>
           </motion.h1>
 
           <motion.p
@@ -56,8 +52,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed"
           >
-            Discover our premium range of dehydrated vegetable powders and nutritious
-            millet mixes. Crafted with care for your health and wellness journey.
+            Shop the best groceries sourced from nature and delivered with care.
+            Premium dehydrated powders and nutritious millet mixes for your healthy lifestyle.
           </motion.p>
 
           <motion.div
@@ -67,10 +63,10 @@ const Hero = () => {
             className="flex flex-col sm:flex-row gap-4"
           >
             <button
-              onClick={scrollToProducts}
+              onClick={() => navigate('/products')}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-soft hover:shadow-glow btn-shine"
             >
-              Explore Products
+              Discover Natural Goodness
               <ArrowRight className="w-5 h-5" />
             </button>
 
@@ -78,7 +74,7 @@ const Hero = () => {
               onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-all duration-300"
             >
-              Learn More
+              Our Story
             </button>
           </motion.div>
 
@@ -92,7 +88,7 @@ const Hero = () => {
             {[
               { value: '15+', label: 'Products' },
               { value: '100%', label: 'Natural' },
-              { value: '1000+', label: 'Happy Customers' },
+              { value: '1000+', label: 'Happy Families' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
