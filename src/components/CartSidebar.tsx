@@ -73,7 +73,7 @@ const CartSidebar = () => {
                         <div className="flex-1">
                           <h4 className="font-semibold text-foreground">{item.name}</h4>
                           <p className="text-sm text-muted-foreground">{item.size}</p>
-                          <p className="text-primary font-bold mt-1">₹{item.price * item.quantity}</p>
+                          <p className="text-primary font-bold mt-1">${item.price * item.quantity}</p>
                         </div>
 
                         {/* Quantity Controls */}
@@ -112,7 +112,7 @@ const CartSidebar = () => {
                 <div className="p-6 border-t border-border bg-card">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-muted-foreground">Total Amount</span>
-                    <span className="text-2xl font-bold text-foreground">₹{totalPrice}</span>
+                    <span className="text-2xl font-bold text-foreground">${totalPrice}</span>
                   </div>
 
                   <button

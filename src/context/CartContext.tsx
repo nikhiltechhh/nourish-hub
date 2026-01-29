@@ -4,7 +4,7 @@ export interface CartItem {
   id: string;
   name: string;
   category: string;
-  size: '250g' | '500g';
+  size: string; // ✅ Make dynamic to match product sizes like '200g', '500g'
   price: number;
   quantity: number;
 }
@@ -39,7 +39,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (existingItem) {
         return prevItems.map((item) =>
           item.id === newItem.id && item.size === newItem.size
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + 1 } // increment existing quantity
             : item
         );
       }

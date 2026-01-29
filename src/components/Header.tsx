@@ -74,7 +74,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="flex items-center">
-            <img src={logo} alt="VeGa Foods" className="h-12 md:h-14 w-auto" />
+            <img src="https://i.ibb.co/HTLQspWM/vega.png" alt="VeGa Foods" className="h-24 md:h-28 w-auto" />
           </a>
 
           {/* Desktop Navigation */}
@@ -158,7 +158,7 @@ const Header = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoFocus
-                  className="w-full pl-12 pr-4 py-3 bg-muted border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  className="w-full pl-12 pr-4 py-3 bg-muted border border-border rounded-xl focus:outline-none  transition-all"
                 />
               </div>
             </motion.form>

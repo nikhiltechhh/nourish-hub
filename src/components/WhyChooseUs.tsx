@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Leaf, Eye, Heart, Sparkles, CheckCircle } from 'lucide-react';
-import whyChooseImage from '@/assets/why-choose-us.jpg';
 
 const WhyChooseUs = () => {
   const reasons = [
@@ -21,27 +20,28 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <section className="py-12 md:py-20 bg-background overflow-hidden">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="w-full"
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-heading font-bold text-foreground mb-4 md:mb-6">
               Why Choose <span className="text-gradient">VeGa Foods?</span>
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">
               At VeGa Foods, we believe that better food leads to better living. That's why we 
               source responsibly, prioritize quality, and deliver products that nourish your 
               family and support a healthier planet.
             </p>
 
             {/* Reasons Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-8">
               {reasons.map((reason, index) => (
                 <motion.div
                   key={index}
@@ -54,7 +54,7 @@ const WhyChooseUs = () => {
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <reason.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="text-foreground font-medium">{reason.text}</span>
+                  <span className="text-foreground font-medium text-sm md:text-base">{reason.text}</span>
                 </motion.div>
               ))}
             </div>
@@ -66,11 +66,11 @@ const WhyChooseUs = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            className="relative w-full"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src={whyChooseImage}
+                src="https://img.freepik.com/free-photo/flat-lay-assortment-sand-leaves_23-2148724084.jpg?semt=ais_hybrid&w=740&q=80"
                 alt="Sustainable farming at VeGa Foods"
                 className="w-full h-auto object-cover aspect-[4/3]"
               />
@@ -85,12 +85,12 @@ const WhyChooseUs = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-16 bg-accent/30 rounded-3xl p-8 md:p-12"
+          className="mt-12 md:mt-16 bg-accent/30 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12"
         >
-          <h3 className="text-2xl md:text-3xl font-heading font-bold text-foreground text-center mb-8">
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-heading font-bold text-foreground text-center mb-6 md:mb-8">
             Key Benefits of Our Products
           </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {productBenefits.map((benefit, index) => (
               <motion.div
                 key={index}
@@ -101,7 +101,7 @@ const WhyChooseUs = () => {
                 className="flex items-start gap-3 p-4 bg-card rounded-xl shadow-soft"
               >
                 <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <span className="text-foreground text-sm">{benefit}</span>
+                <span className="text-foreground text-sm md:text-base">{benefit}</span>
               </motion.div>
             ))}
           </div>

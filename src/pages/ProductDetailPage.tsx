@@ -13,9 +13,6 @@ import { useCart } from '@/context/CartContext';
 const ProductDetailPage = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const [selectedSize, setSelectedSize] = useState<'250g' | '500g'>('250g');
-  const [quantity, setQuantity] = useState(1);
-  const [isAdded, setIsAdded] = useState(false);
   const { addToCart } = useCart();
 
   const product = products.find((p) => p.id === productId);
@@ -33,22 +30,26 @@ const ProductDetailPage = () => {
     );
   }
 
+  // ✅ Dynamically get sizes from product.prices
+  const sizes = Object.keys(product.prices);
+  const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        category: product.category === 'dehydrated' ? 'Dehydrated Powders' : 'Millet Mix',
-        size: selectedSize,
-        price: product.prices[selectedSize],
-      });
-    }
+    addToCart({
+      id: product.id,
+      name: product.name,
+      category: product.category === 'dehydrated' ? 'Dehydrated Powders' : 'Millet Mix',
+      size: selectedSize,
+      price: product.prices[selectedSize],
+    });
     setIsAdded(true);
     setQuantity(1);
     setTimeout(() => setIsAdded(false), 1500);
   };
 
-  const incrementQuantity = () => setQuantity((q) => Math.min(q + 1, 10));
+  const incrementQuantity = () => setQuantity((q) => Math.min(q + 10, 10));
   const decrementQuantity = () => setQuantity((q) => Math.max(q - 1, 1));
 
   const benefits = product.benefits || [
@@ -67,11 +68,7 @@ const ProductDetailPage = () => {
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           {/* Back Link */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
             <button
               onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
@@ -87,16 +84,11 @@ const ProductDetailPage = () => {
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative"
+              className="relative max-w-md mx-auto lg:mx-0"
             >
               <div className="aspect-square rounded-3xl overflow-hidden bg-card shadow-soft">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
+                <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
               </div>
-              {/* Category Badge */}
               <div className="absolute top-4 left-4">
                 <span className="px-4 py-2 bg-primary/90 text-primary-foreground text-sm font-medium rounded-full">
                   {product.category === 'dehydrated' ? 'Dehydrated Powder' : 'Millet Mix'}
@@ -115,16 +107,12 @@ const ProductDetailPage = () => {
                 {product.name}
               </h1>
 
-              <p className="text-lg text-muted-foreground mb-6">
-                {product.description}
-              </p>
+              <p className="text-lg text-muted-foreground mb-6">{product.description}</p>
 
               {/* Benefits Section */}
               <div className="mb-8">
-                <h3 className="text-lg font-heading font-semibold text-foreground mb-4">
-                  Key Benefits
-                </h3>
-                <div className="grid gap-3">
+                <h3 className="text-lg font-heading font-semibold text-foreground mb-3">Key Benefits</h3>
+                <div className="space-y-2">
                   {benefits.map((benefit, index) => {
                     const IconComponent = benefitIcons[index % benefitIcons.length];
                     return (
@@ -133,12 +121,10 @@ const ProductDetailPage = () => {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.2 + index * 0.1 }}
-                        className="flex items-center gap-3 p-3 bg-primary/5 rounded-xl"
+                        className="flex items-start gap-2"
                       >
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <IconComponent className="w-5 h-5 text-primary" />
-                        </div>
-                        <span className="text-foreground">{benefit}</span>
+                        <IconComponent className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-foreground leading-relaxed">{benefit}</span>
                       </motion.div>
                     );
                   })}
@@ -149,7 +135,7 @@ const ProductDetailPage = () => {
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-muted-foreground mb-3">Select Size</h3>
                 <div className="flex gap-3">
-                  {(['250g', '500g'] as const).map((size) => (
+                  {sizes.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
@@ -172,7 +158,7 @@ const ProductDetailPage = () => {
                   <div className="flex items-center gap-3 bg-muted rounded-xl p-2">
                     <button
                       onClick={decrementQuantity}
-                      className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-card transition-colors"
+                      className="w-8 h-6 flex items-center justify-center rounded-lg hover:bg-card transition-colors"
                     >
                       <Minus className="w-5 h-5" />
                     </button>
@@ -184,19 +170,18 @@ const ProductDetailPage = () => {
                       <Plus className="w-5 h-5" />
                     </button>
                   </div>
-                  <span className="text-muted-foreground">Max 10 per order</span>
                 </div>
               </div>
 
               {/* Price & Add to Cart */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-auto pt-6 border-t border-border">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-auto pt-2 border-t border-border">
                 <div className="flex-1">
-                  <span className="text-3xl md:text-4xl font-bold text-foreground">
-                    ₹{product.prices[selectedSize] * quantity}
+                  <span className="text-2xl md:text-3xl font-bold text-foreground">
+                    ₹{(product.prices[selectedSize] * quantity).toFixed(2)}
                   </span>
                   {quantity > 1 && (
                     <span className="text-sm text-muted-foreground block mt-1">
-                      ₹{product.prices[selectedSize]} × {quantity}
+                      ₹{product.prices[selectedSize].toFixed(2)} × {quantity}
                     </span>
                   )}
                 </div>
@@ -205,7 +190,7 @@ const ProductDetailPage = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleAddToCart}
                   disabled={isAdded}
-                  className={`flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-medium text-lg transition-all duration-300 w-full sm:w-auto ${
+                  className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-lg transition-all duration-300 w-full sm:w-auto ${
                     isAdded
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow'

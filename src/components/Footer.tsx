@@ -148,7 +148,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-background/10 mt-12 pt-8 text-center">
           <p className="text-background/60 text-sm flex items-center justify-center gap-1">
-            © 2026 VeGa Foods. Made with <Heart className="w-4 h-4 text-primary" /> for healthy living.
+            © 2026 VeGa Foods. Fresh • Pure • Natural
           </p>
         </div>
       </div>

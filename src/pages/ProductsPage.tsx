@@ -147,9 +147,9 @@ const ProductsPage = () => {
             {searchQuery && ` for "${searchQuery}"`}
           </motion.p>
 
-          {/* Products Grid */}
+          {/* Products Grid - Responsive: Single column on mobile, Grid on desktop */}
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {filteredProducts.map((product, index) => (
                 <ProductCard key={product.id} product={product} index={index} />
               ))}
@@ -160,13 +160,13 @@ const ProductsPage = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-16"
             >
-              <p className="text-xl text-muted-foreground mb-4">No products found</p>
+              <p className="text-lg sm:text-xl text-muted-foreground mb-4">No products found</p>
               <button
                 onClick={() => {
                   handleSearchChange('');
                   handleCategoryChange('all');
                 }}
-                className="text-primary hover:underline"
+                className="text-primary hover:underline font-medium"
               >
                 Clear filters
               </button>
