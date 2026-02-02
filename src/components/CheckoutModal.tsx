@@ -55,9 +55,9 @@ const CheckoutModal = () => {
       )
       .join('\n');
 
-    const message = ` *NEW ORDER - VeGa Foods*\n\n*Customer Details:*\n Name: ${formData.name}\n Phone: ${formData.phone}\n📧 Email: ${formData.email}\n Address: ${formData.address}\n\n*Order Items:*\n${orderItems}\n\n💰 *Total: $${totalPrice}*`;
+    const message = ` *NEW ORDER - VeGa Foods*\n\n*Customer Details:*\n Name: ${formData.name}\n Phone: ${formData.phone}\n Email: ${formData.email}\n Address: ${formData.address}\n\n*Order Items:*\n${orderItems}\n\n *Total: $${totalPrice}*`;
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/61435007232?text=${encodedMessage}`;
 
     window.open(whatsappUrl, '_blank');
 
