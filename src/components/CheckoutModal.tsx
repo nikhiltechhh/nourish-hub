@@ -6,7 +6,11 @@ import { z } from 'zod';
 
 const checkoutSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100, 'Name must be less than 100 characters'),
-  phone: z.string().trim().regex(/^[6-9]\d{9}$/, 'Please enter a valid 10-digit phone number'),
+phone: z
+  .string()
+  .trim()
+  .regex(/^\d{8,15}$/, 'Please enter a valid phone number'),
+
   email: z.string().trim().email('Please enter a valid email address').max(255, 'Email must be less than 255 characters'),
   address: z.string().trim().min(10, 'Please enter a complete address').max(500, 'Address must be less than 500 characters'),
 });

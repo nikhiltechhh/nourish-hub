@@ -110,7 +110,16 @@ const CartSidebar = () => {
               {/* Footer */}
               {items.length > 0 && (
                 <div className="p-6 border-t border-border bg-card">
+                  <span
+                    onClick={() => (window.location.href = "/shipping")}
+                    className="mb-2 block text-sm text-red-700 underline cursor-pointer"
+                  >
+                    Shipping policy
+                  </span>
+
+
                   <div className="flex items-center justify-between mb-4">
+                    
                     <span className="text-muted-foreground">Total Amount</span>
                     <span className="text-2xl font-bold text-foreground">${totalPrice}</span>
                   </div>
