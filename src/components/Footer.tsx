@@ -150,6 +150,15 @@ const Footer = () => {
           <p className="text-background/60 text-sm flex items-center justify-center gap-1">
             © 2026 VeGa Foods. Fresh • Pure • Natural
           </p>
+          <div className="flex items-center justify-center gap-4 mt-2">
+            <Link to="/privacy" className="text-background/50 hover:text-primary text-xs transition-colors duration-200">
+              Privacy Policy
+            </Link>
+            <span className="text-background/30 text-xs">•</span>
+            <Link to="/terms" className="text-background/50 hover:text-primary text-xs transition-colors duration-200">
+              Terms &amp; Conditions
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

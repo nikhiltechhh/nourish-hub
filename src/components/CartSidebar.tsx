@@ -111,10 +111,10 @@ const CartSidebar = () => {
               {items.length > 0 && (
                 <div className="p-6 border-t border-border bg-card">
                   <span
-                    onClick={() => (window.location.href = "/shipping")}
+                    onClick={() => (window.location.href = "/terms")}
                     className="mb-2 block text-sm text-red-700 underline cursor-pointer"
                   >
-                    Shipping policy
+                    Terms & Conditions
                   </span>
 
 
