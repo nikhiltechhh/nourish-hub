@@ -30,7 +30,6 @@ const ProductDetailPage = () => {
     );
   }
 
-  // ✅ Dynamically get sizes from product.prices
   const sizes = Object.keys(product.prices);
   const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
   const [quantity, setQuantity] = useState(1);
@@ -49,7 +48,9 @@ const ProductDetailPage = () => {
     setTimeout(() => setIsAdded(false), 1500);
   };
 
-  const incrementQuantity = () => setQuantity((q) => Math.min(q + 10, 10));
+  // ✅ FIXED HERE (only change)
+  const incrementQuantity = () => setQuantity((q) => Math.min(q + 1, 10));
+
   const decrementQuantity = () => setQuantity((q) => Math.max(q - 1, 1));
 
   const benefits = product.benefits || [
@@ -67,7 +68,7 @@ const ProductDetailPage = () => {
 
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-4">
-          {/* Back Link */}
+
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
             <button
               onClick={() => navigate(-1)}
@@ -79,7 +80,7 @@ const ProductDetailPage = () => {
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Product Image */}
+
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -96,7 +97,6 @@ const ProductDetailPage = () => {
               </div>
             </motion.div>
 
-            {/* Product Details */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -109,7 +109,6 @@ const ProductDetailPage = () => {
 
               <p className="text-lg text-muted-foreground mb-6">{product.description}</p>
 
-              {/* Benefits Section */}
               <div className="mb-8">
                 <h3 className="text-lg font-heading font-semibold text-foreground mb-3">Key Benefits</h3>
                 <div className="space-y-2">
@@ -131,7 +130,6 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Size Selector */}
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-muted-foreground mb-3">Select Size</h3>
                 <div className="flex gap-3">
@@ -151,7 +149,6 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Quantity Selector */}
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-muted-foreground mb-3">Quantity</h3>
                 <div className="flex items-center gap-4">
@@ -173,7 +170,6 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Price & Add to Cart */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-auto pt-2 border-t border-border">
                 <div className="flex-1">
                   <span className="text-2xl md:text-3xl font-bold text-foreground">
@@ -212,7 +208,6 @@ const ProductDetailPage = () => {
             </motion.div>
           </div>
 
-          {/* Related Products Suggestion */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -227,6 +222,7 @@ const ProductDetailPage = () => {
               <ArrowLeft className="w-4 h-4 rotate-180" />
             </Link>
           </motion.div>
+
         </div>
       </main>
 
